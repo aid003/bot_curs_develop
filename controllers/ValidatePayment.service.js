@@ -12,9 +12,13 @@ export const validatePayment = expressAsyncHandler(async (req, res) => {
     const pay = await prisma.payment.update({
       where: { order_id: order_id },
       data: { status: true },
+      select: {
+        author: true,
+      },
     });
-    await bot_tg.sendDocument(pay.tgId, "../public/материалы.txt");
+    await bot_tg.sendDocument(pay.author.tgId, "../public/материалы.txt");
   } catch (error) {
+    console.log(error);
     throw new Error(`${order_id} не обновлен. Ошибка пополнения.`);
   }
 });

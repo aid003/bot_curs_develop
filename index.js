@@ -63,18 +63,22 @@ async function main() {
         "https://telegra.ph/Dogovor-oferty-12-11"
       );
     }
-    if (msg.text === "/o") {
-      const order_id = 21300613787;
-      try {
-        const pay = await prisma.payment.update({
-          where: { order_id: order_id },
-          data: { status: true },
-        });
-        await bot_tg.sendDocument(pay.tgId, "../public/материалы.txt");
-      } catch (error) {
-        throw new Error(`${order_id} не обновлен. Ошибка пополнения.`);
-      }
-    }
+    // if (msg.text === "/ppt") {
+    //   const order_id = "73814993814";
+    //   try {
+    //     const pay = await prisma.payment.update({
+    //       where: { order_id: order_id },
+    //       data: { status: true },
+    //       select: {
+    //         author: true,
+    //       },
+    //     });
+    //     await bot_tg.sendDocument(pay.author.tgId, "./public/материалы.txt");
+    //   } catch (error) {
+    //     console.log(error);
+    //     throw new Error(`${order_id} не обновлен. Ошибка пополнения.`);
+    //   }
+    // }
   });
 
   bot_tg.on("callback_query", async (query) => {
