@@ -29,8 +29,6 @@ async function main() {
 
   app.use("/api/success-payment/", validatePayment);
 
-  // await createPaymentLink("18d718hr71d21w");
-
   bot_tg.on("polling_error", (err) => console.log(err.data.error.message));
   app.listen(
     process.env.PORT,
