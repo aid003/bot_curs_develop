@@ -15,7 +15,6 @@ dotenv.config();
 export const bot_tg = new TelegramBot(process.env.API_KEY_BOT, {
   polling: {
     interval: 200,
-    autoStart: true,
   },
 });
 export const prisma = new PrismaClient();
@@ -61,6 +60,21 @@ async function main() {
       await bot_tg.sendMessage(
         msg.chat.id,
         "https://telegra.ph/Dogovor-oferty-12-11"
+      );
+    }
+    if (msg.text === "/statistics_for_analitics") {
+      const register = await prisma.user.count();
+      const chekCount = await prisma.payment.count();
+      const success = await prisma.payment.findMany({
+        where: { status: true },
+      });
+      await bot_tg.sendMessage(
+        msg.chat.id,
+        `СТАТИСТИКА\n\n\nЗарегистрировано: ${register}\nВыставлено чеков: ${chekCount}\nЧеков оплачено: ${
+          success.length
+        }\n\n\nКонверсия в сделку: ${parseFloat(
+          (success.length / register) * 100
+        ).toFixed(2)}%`
       );
     }
     // if (msg.text === "/ppt") {
