@@ -9,7 +9,6 @@ export async function registerUser(msg) {
     await prisma.user.create({
       data: {
         tgId: msg.from.id.toString(),
-        chatId: msg.chat.id.toString(),
         userName: msg.from.username ? msg.from.username : "no username",
         name: msg.from.first_name ? msg.from.first_name : "no name",
       },
