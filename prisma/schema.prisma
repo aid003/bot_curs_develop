@@ -14,7 +14,6 @@ datasource db {
 model User {
   id       Int     @id @default(autoincrement())
   tgId     String  @unique
-  chatId   String
   name     String?
   userName String?
   payments Payment[]
