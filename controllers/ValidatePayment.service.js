@@ -1,5 +1,5 @@
 import expressAsyncHandler from "express-async-handler";
-import { bot_tg, prisma } from "../index.js";
+import { bot_tg, buttonPay, prisma } from "../index.js";
 
 export const validatePayment = expressAsyncHandler(async (req, res) => {
   // const { label, unaccepted, operation_id, amount } = req.body;
@@ -34,6 +34,12 @@ export const validatePayment = expressAsyncHandler(async (req, res) => {
           tgId: true,
         },
       });
+
+      try {
+        await bot_tg.deleteMessage(obj.tgId, buttonPay.message_id);
+      } catch (error) {
+        console.log("Ошибка удаления ссылки");
+      }
 
       await bot_tg.sendDocument(obj.tgId, "../public/материалы.txt");
     } catch (error) {

@@ -19,6 +19,7 @@ export const bot_tg = new TelegramBot(process.env.API_KEY_BOT, {
 });
 export const prisma = new PrismaClient();
 export const app = express();
+export let buttonPay = ""
 
 async function main() {
   app.use(morgan("tiny"));
@@ -35,6 +36,7 @@ async function main() {
       `🚀 Server and TG-bot running in ${process.env.NODE_ENV} mode on port ${process.env.PORT}`
     )
   );
+  
   bot_tg.on("message", async (msg) => {
     if (msg.text === "/start") {
       await bot_tg.sendPhoto(msg.chat.id, "./public/main.jpg", {
@@ -90,10 +92,14 @@ async function main() {
           const link = await createPaymentLink(order_id);
           await bot_tg.answerCallbackQuery(query.id);
           await bot_tg.deleteMessage(chatId, message.message_id);
-          await bot_tg.sendMessage(chatId, `[ОПЛАТИТЬ 👈](${link})`, {
-            parse_mode: "Markdown",
-            disable_web_page_preview: true,
-          });
+          buttonPay = await bot_tg.sendMessage(
+            chatId,
+            `[ОПЛАТИТЬ 👈](${link})`,
+            {
+              parse_mode: "Markdown",
+              disable_web_page_preview: true,
+            }
+          );
         } catch (error) {
           await bot_tg.answerCallbackQuery(query.id);
           await bot_tg.deleteMessage(chatId, message.message_id);
