@@ -97,6 +97,7 @@ async function main() {
         } catch (error) {
           await bot_tg.answerCallbackQuery(query.id);
           await bot_tg.deleteMessage(chatId, message.message_id);
+          console.log(error);
           await bot_tg.sendMessage(
             query.message.chat.id,
             `Ошибка генерации ссылки для оплаты.\n\nНапиши текст ошибки сюда: @GMTUSDT`
@@ -105,6 +106,7 @@ async function main() {
       } catch (error) {
         await bot_tg.answerCallbackQuery(query.id);
         await bot_tg.deleteMessage(chatId, message.message_id);
+        console.log(error);
         await bot_tg.sendMessage(
           query.message.chat.id,
           `Ошибка генерации сущности.\n\nНапиши текст ошибки сюда: @GMTUSDT`
