@@ -86,31 +86,32 @@ async function main() {
       const message = await bot_tg.sendMessage(chatId, "Генерирую ссылку");
       try {
         const order_id = await createPaymentEntry(query.from.id);
-        const link = await createPaymentLink(order_id);
-        // const link = "link";
-        await bot_tg.answerCallbackQuery(query.id);
-        await bot_tg.deleteMessage(chatId, message.message_id);
-        await bot_tg.sendMessage(chatId, `[ОПЛАТИТЬ 👈](${link})`, {
-          parse_mode: "Markdown",
-          disable_web_page_preview: true,
-        });
+        try {
+          const link = await createPaymentLink(order_id);
+          await bot_tg.answerCallbackQuery(query.id);
+          await bot_tg.deleteMessage(chatId, message.message_id);
+          await bot_tg.sendMessage(chatId, `[ОПЛАТИТЬ 👈](${link})`, {
+            parse_mode: "Markdown",
+            disable_web_page_preview: true,
+          });
+        } catch (error) {
+          await bot_tg.answerCallbackQuery(query.id);
+          await bot_tg.deleteMessage(chatId, message.message_id);
+          await bot_tg.sendMessage(
+            query.message.chat.id,
+            `Ошибка генерации ссылки для оплаты.\n\nНапиши текст ошибки сюда: @GMTUSDT`
+          );
+        }
       } catch (error) {
         await bot_tg.answerCallbackQuery(query.id);
         await bot_tg.deleteMessage(chatId, message.message_id);
-        await bot_tg.sendMessage(chatId, `[ОПЛАТИТЬ 👈](${link})`, {
-          parse_mode: "Markdown",
-        });
         await bot_tg.sendMessage(
           query.message.chat.id,
-          `Ошибка генерации ссылки.\n\nНапиши сюда: @GMTUSDT`
+          `Ошибка генерации сущности.\n\nНапиши текст ошибки сюда: @GMTUSDT`
         );
       }
     }
   });
-
-  //   https
-  //     .createServer(options, app)
-  //     .listen(8443, console.log("https be started"));
 }
 
 await main()

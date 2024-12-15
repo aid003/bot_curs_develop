@@ -1,39 +1,30 @@
 import axios from "axios";
+import { urlencoded } from "express";
 import sha256 from "sha256";
 
 export async function createPaymentLink(order_id) {
+  const link = process.env.LINK_FOR_CREATE_FORM;
+
   let data = {
-    merchant_id: process.env.MERCHANT_ID,
-    amount: process.env.PRICE,
-    secret: process.env.PUBLIC_SECRET_1,
-    desc: "Курс по созданию аутентичных бирок",
-    currency: "RUB",
-    method: "sbp",
-    lang: "ru",
-    order_id: order_id.toString(),
-    sign: "",
+    receiver: process.env.WALLET_MERCHANT,
+    "quickpay-form": "button",
+    paymentType: process.env.TYPE_PAYMENT,
+    sum: process.env.SUMM,
+    label: order_id.toString(),
+    successURL: process.env.SUCCESS_URL,
   };
 
-  data.sign = sha256(
-    `${data.merchant_id}:${data.amount}:${data.currency}:${data.secret}:${data.order_id}`
-  );
-
-  const str = "https://aaio.so/merchant/get_pay_url";
-
-  const response = await fetch(str, {
+  const response = await fetch(link, {
     method: "POST",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/x-www-form-urlencoded",
     },
     body: new URLSearchParams(data),
-  }).then(async (res) => await res.json());
+  });
 
-  console.log(response);
-
-  if (response.type === "fail" || [200, 400, 401].includes(response.code)) {
-    throw new Error(response.message);
+  if (response.status === 200 && response.statusText === "OK" && response.url) {
+    return response.url;
+  } else {
+    throw new Error("Ошибка выставления счета");
   }
-
-  return response.url;
 }
