@@ -100,7 +100,7 @@ async function main() {
           await bot_tg.deleteMessage(chatId, message.message_id);
           buttonPay = await bot_tg.sendMessage(
             chatId,
-            `Отдаю за скромную цену: ||*5000₽*||\n\n[ОПЛАТИТЬ 👈](${link})`,
+            `Отдаю за скромную цену: ||*4990₽*||\n\n[ОПЛАТИТЬ 👈](${link})`,
             {
               parse_mode: "MarkdownV2",
               disable_web_page_preview: true,
