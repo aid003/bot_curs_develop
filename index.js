@@ -28,25 +28,6 @@ async function main() {
 
   app.use("/api/success-payment/", validatePayment);
 
-  // const str = "https://yoomoney.ru";
-  // let data = {
-  //   client_id:
-  //     "233D1492C9861952B9DF8725C952117637A7DBA83BAFE78D2C3810AB0AD33953",
-  //   response_type: "code",
-  //   redirect_uri: "http://194.87.31.29:5447/api/success-payment/",
-  //   scope: "money-source('wallet','card')",
-  // };
-  // const response = await fetch(str, {
-  //   method: "POST",
-  //   headers: {
-  //     // Accept: "application/json",
-  //     "Content-Type": "application/x-www-form-urlencoded",
-  //     "Content-Length": "191",
-  //   },
-  //   body: new URLSearchParams(data),
-  // }).then(async (res) => await res.json());
-  // console.log(response)
-
   bot_tg.on("polling_error", (err) => console.log(err.data.error.message));
   app.listen(
     process.env.PORT,
@@ -96,22 +77,6 @@ async function main() {
         ).toFixed(2)}%`
       );
     }
-    // if (msg.text === "/ppt") {
-    //   const order_id = "73814993814";
-    //   try {
-    //     const pay = await prisma.payment.update({
-    //       where: { order_id: order_id },
-    //       data: { status: true },
-    //       select: {
-    //         author: true,
-    //       },
-    //     });
-    //     await bot_tg.sendDocument(pay.author.tgId, "./public/материалы.txt");
-    //   } catch (error) {
-    //     console.log(error);
-    //     throw new Error(`${order_id} не обновлен. Ошибка пополнения.`);
-    //   }
-    // }
   });
 
   bot_tg.on("callback_query", async (query) => {
