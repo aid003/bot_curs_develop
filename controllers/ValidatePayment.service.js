@@ -35,12 +35,6 @@ export const validatePayment = expressAsyncHandler(async (req, res) => {
         },
       });
 
-      try {
-        await bot_tg.deleteMessage(obj.tgId, buttonPay.message_id);
-      } catch (error) {
-        console.log("Ошибка удаления ссылки");
-      }
-
       await bot_tg.sendDocument(obj.tgId, "../public/материалы.txt");
     } catch (error) {
       console.log(error);

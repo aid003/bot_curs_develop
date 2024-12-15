@@ -19,7 +19,7 @@ export const bot_tg = new TelegramBot(process.env.API_KEY_BOT, {
 });
 export const prisma = new PrismaClient();
 export const app = express();
-export let buttonPay = ""
+export let buttonPay = "";
 
 async function main() {
   app.use(morgan("tiny"));
@@ -36,7 +36,7 @@ async function main() {
       `🚀 Server and TG-bot running in ${process.env.NODE_ENV} mode on port ${process.env.PORT}`
     )
   );
-  
+
   bot_tg.on("message", async (msg) => {
     if (msg.text === "/start") {
       await bot_tg.sendPhoto(msg.chat.id, "./public/main.jpg", {
