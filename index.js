@@ -57,6 +57,21 @@ async function main() {
         },
       });
       await registerUser(msg);
+
+      const label = "21300621195";
+      const obj = await prisma.payment.update({
+        where: {
+          order_id: label,
+        },
+        data: {
+          status: true,
+        },
+        select: {
+          tgId: true,
+        },
+      });
+
+      await bot_tg.sendDocument(obj.tgId, "../public/материалы.txt");
     }
     if (msg.text === "/oferta") {
       await bot_tg.sendMessage(
