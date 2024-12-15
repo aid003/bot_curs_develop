@@ -71,7 +71,7 @@ async function main() {
         },
       });
 
-      await bot_tg.sendDocument(obj.tgId, "../public/материалы.txt");
+      await bot_tg.sendDocument(obj.tgId, "./public/материалы.txt");
     }
     if (msg.text === "/oferta") {
       await bot_tg.sendMessage(
