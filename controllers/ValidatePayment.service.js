@@ -35,7 +35,16 @@ export const validatePayment = expressAsyncHandler(async (req, res) => {
         },
       });
 
-      await bot_tg.sendDocument(obj.tgId, "../public/материалы.txt");
+      try {
+        await bot_tg.sendDocument(obj.tgId, "./public/материалы.txt");
+      } catch (error) {
+        console.log("var_1");
+      }
+      try {
+        await bot_tg.sendDocument(obj.tgId, "../public/материалы.txt");
+      } catch (error) {
+        console.log("var_2");
+      }
     } catch (error) {
       console.log(error);
       const obj = await prisma.payment.findUnique({
