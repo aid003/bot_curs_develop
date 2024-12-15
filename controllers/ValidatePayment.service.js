@@ -7,7 +7,7 @@ export const validatePayment = expressAsyncHandler(async (req, res) => {
 
   console.log(label, unaccepted, operation_id);
 
-  if (unaccepted) {
+  if (unaccepted === true) {
     const obj = await prisma.payment.findUnique({
       where: {
         order_id: label,
